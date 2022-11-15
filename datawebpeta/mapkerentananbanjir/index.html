@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+		<center><h1>PETA KERENTANAN BANJIR</h1></center>
+		<center>
+		<p> Tingkat kerentanan banjir Kota Padang diperoleh dari penggabungan kelas penduduk terpapar, kelas kerugian rupiah dan kelas kerugian lingkungan.</p>
+        </center>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="data/BATASKELURAHAN_1.js"></script>
+        <script src="data/KERENTANAN_2.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:10
+        })
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+            if (bounds_group.getLayers().length) {
+                map.fitBounds(bounds_group.getBounds());
+            }
+        }
+        map.createPane('pane_GoogleMaps_0');
+        map.getPane('pane_GoogleMaps_0').style.zIndex = 400;
+        var layer_GoogleMaps_0 = L.tileLayer('http://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleMaps_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 10,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 22
+        });
+        layer_GoogleMaps_0;
+        map.addLayer(layer_GoogleMaps_0);
+        function pop_BATASKELURAHAN_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">WADMKD</th>\
+                        <td>' + (feature.properties['WADMKD'] !== null ? autolinker.link(feature.properties['WADMKD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>WADMKC</strong><br />' + (feature.properties['WADMKC'] !== null ? autolinker.link(feature.properties['WADMKC'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">WADMKK</th>\
+                        <td>' + (feature.properties['WADMKK'] !== null ? autolinker.link(feature.properties['WADMKK'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_BATASKELURAHAN_1_0() {
+            return {
+                pane: 'pane_BATASKELURAHAN_1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '10,5',
+                lineCap: 'square',
+                lineJoin: 'round',
+                weight: 1,
+                fillOpacity: 0,
+                interactive: false,
+            }
+        }
+        map.createPane('pane_BATASKELURAHAN_1');
+        map.getPane('pane_BATASKELURAHAN_1').style.zIndex = 401;
+        map.getPane('pane_BATASKELURAHAN_1').style['mix-blend-mode'] = 'normal';
+        var layer_BATASKELURAHAN_1 = new L.geoJson(json_BATASKELURAHAN_1, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_BATASKELURAHAN_1',
+            layerName: 'layer_BATASKELURAHAN_1',
+            pane: 'pane_BATASKELURAHAN_1',
+            onEachFeature: pop_BATASKELURAHAN_1,
+            style: style_BATASKELURAHAN_1_0,
+        });
+        bounds_group.addLayer(layer_BATASKELURAHAN_1);
+        map.addLayer(layer_BATASKELURAHAN_1);
+        function pop_KERENTANAN_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">KELURAHAN</th>\
+                        <td>' + (feature.properties['KELURAHAN'] !== null ? autolinker.link(feature.properties['KELURAHAN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">KECAMATAN</th>\
+                        <td>' + (feature.properties['KECAMATAN'] !== null ? autolinker.link(feature.properties['KECAMATAN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">JUMLAH JIWA TERPAPAR</th>\
+                        <td>' + (feature.properties['JUMLAH JIWA TERPAPAR'] !== null ? autolinker.link(feature.properties['JUMLAH JIWA TERPAPAR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">RASIO JENIS KELAMIN</th>\
+                        <td>' + (feature.properties['RASIO JENIS KELAMIN'] !== null ? autolinker.link(feature.properties['RASIO JENIS KELAMIN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">JUMLAH UMUR KETERGANTUNGAN (JIWA)</th>\
+                        <td>' + (feature.properties['JUMLAH UMUR KETERGANTUNGAN (JIWA)'] !== null ? autolinker.link(feature.properties['JUMLAH UMUR KETERGANTUNGAN (JIWA)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">JUMLAH PENDUDUK MISKIN (JIWA)</th>\
+                        <td>' + (feature.properties['JUMLAH PENDUDUK MISKIN (JIWA)'] !== null ? autolinker.link(feature.properties['JUMLAH PENDUDUK MISKIN (JIWA)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">JUMLAH PENDUDUK CACAT (JIWA)</th>\
+                        <td>' + (feature.properties['JUMLAH PENDUDUK CACAT (JIWA)'] !== null ? autolinker.link(feature.properties['JUMLAH PENDUDUK CACAT (JIWA)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">KERUGIAN FISIK</th>\
+                        <td>' + (feature.properties['KERUGIAN FISIK'] !== null ? autolinker.link(feature.properties['KERUGIAN FISIK'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">KERUGIAN EKONOMI</th>\
+                        <td>' + (feature.properties['KERUGIAN EKONOMI'] !== null ? autolinker.link(feature.properties['KERUGIAN EKONOMI'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">POTENSI KERUGIAN (Dalam Juta Rupiah)</th>\
+                        <td>' + (feature.properties['POTENSI KERUGIAN (Dalam Juta Rupiah)'] !== null ? autolinker.link(feature.properties['POTENSI KERUGIAN (Dalam Juta Rupiah)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">KERUSAKAN LINGKUNGAN (Ha)</th>\
+                        <td>' + (feature.properties['KERUSAKAN LINGKUNGAN (Ha)'] !== null ? autolinker.link(feature.properties['KERUSAKAN LINGKUNGAN (Ha)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">KELAS KERENTANAN</th>\
+                        <td>' + (feature.properties['KELAS KERENTANAN'] !== null ? autolinker.link(feature.properties['KELAS KERENTANAN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_KERENTANAN_2_0(feature) {
+            switch(String(feature.properties['KELAS KERENTANAN'])) {
+                case 'SEDANG':
+                    return {
+                pane: 'pane_KERENTANAN_2',
+                opacity: 1,
+                color: 'rgba(128,14,16,0.6)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,127,0,0.6)',
+                interactive: true,
+            }
+                    break;
+                case 'TINGGI':
+                    return {
+                pane: 'pane_KERENTANAN_2',
+                opacity: 1,
+                color: 'rgba(128,14,16,0.6)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(227,26,28,0.6)',
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_KERENTANAN_2',
+                opacity: 1,
+                color: 'rgba(128,14,16,0.6)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(189,0,38,0.6)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_KERENTANAN_2');
+        map.getPane('pane_KERENTANAN_2').style.zIndex = 402;
+        map.getPane('pane_KERENTANAN_2').style['mix-blend-mode'] = 'normal';
+        var layer_KERENTANAN_2 = new L.geoJson(json_KERENTANAN_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_KERENTANAN_2',
+            layerName: 'layer_KERENTANAN_2',
+            pane: 'pane_KERENTANAN_2',
+            onEachFeature: pop_KERENTANAN_2,
+            style: style_KERENTANAN_2_0,
+        });
+        bounds_group.addLayer(layer_KERENTANAN_2);
+        map.addLayer(layer_KERENTANAN_2);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'KERENTANAN<br /><table><tr><td style="text-align: center;"><img src="legend/KERENTANAN_2_SEDANG0.png" /></td><td>SEDANG</td></tr><tr><td style="text-align: center;"><img src="legend/KERENTANAN_2_TINGGI1.png" /></td><td>TINGGI</td></tr><tr><td style="text-align: center;"><img src="legend/KERENTANAN_2_2.png" /></td><td></td></tr></table>': layer_KERENTANAN_2,'<img src="legend/BATASKELURAHAN_1.png" /> BATAS KELURAHAN': layer_BATASKELURAHAN_1,"Google Maps": layer_GoogleMaps_0,}).addTo(map);
+        setBounds();
+        var i = 0;
+        layer_BATASKELURAHAN_1.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['WADMKD'] !== null?String('<div style="color: #000000; font-size: 10pt; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['WADMKD']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_BATASKELURAHAN_1'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        resetLabels([layer_BATASKELURAHAN_1,layer_KERENTANAN_2]);
+        map.on("zoomend", function(){
+            resetLabels([layer_BATASKELURAHAN_1,layer_KERENTANAN_2]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_BATASKELURAHAN_1,layer_KERENTANAN_2]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_BATASKELURAHAN_1,layer_KERENTANAN_2]);
+        });
+        </script>
+    </body>
+</html>

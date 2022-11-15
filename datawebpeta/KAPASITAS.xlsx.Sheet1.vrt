@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OGRVRTDataSource>
+    <OGRVRTLayer name="KAPASITAS-Sheet1">
+        <SrcDataSource relativeToVRT="1">KAPASITAS.xlsx</SrcDataSource>
+        <!--Header=False-->
+        <SrcLayer>Sheet1</SrcLayer>
+        <Field name="NO" src="NO" type="String"/>
+        <Field name="WADMKC" src="WADMKC" type="String"/>
+        <Field name="INDEKS DAERAH" src="INDEKS DAERAH" type="Real"/>
+        <Field name="KELAS DAERAH" src="KELAS DAERAH" type="String"/>
+        <Field name="INDEKS KELURAHAN" src="INDEKS KELURAHAN" type="Real"/>
+        <Field name="KELAS KELURAHAN" src="KELAS KELURAHAN" type="String"/>
+        <Field name="INDEKS KAPASITAS" src="INDEKS KAPASITAS" type="Real"/>
+        <Field name="KELAS KAPASITAS" src="KELAS KAPASITAS" type="String"/>
+    </OGRVRTLayer>
+</OGRVRTDataSource>

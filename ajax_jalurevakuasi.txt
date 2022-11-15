@@ -1,0 +1,58 @@
+SELECT tbl_lokasi.*,
+(6371 * acos(cos(radians(".$position[0].")) * cos(radians(latitude)) * cos(radians(longitude) - radians(".$position[1].")) +
+sin(radians(".$position[0]."))* sin(radians(latitude))))AS jarak, 
+tbl_marker.marker as penanda,
+
+if(lebarjalan<=5,1,if(lebarjalan>5 AND lebarjalan<=7,2,if(lebarjalan>7,3,0))) as nilailebarjalan,
+
+
+if(kepadatanpenduduk<=5000,1,if(kepadatanpenduduk>5001 AND kepadatanpenduduk<=7000,2,
+if(kepadatanpenduduk>7001 AND kepadatanpenduduk<=12500,3,
+if(kepadatanpenduduk<12501 AND kepadatanpenduduk<=20000,4,
+if(kepadatanpenduduk>20001,5,0))))) as nilaipadatpenduduk,
+
+
+( (if(lebarjalan<=5,1,if(lebarjalan>5 AND lebarjalan<=7,2,if(lebarjalan>7,3,0))) )+
+
+( if(kepadatanpenduduk<=5000,1,if(kepadatanpenduduk>5001 AND kepadatanpenduduk<=7000,2,
+if(kepadatanpenduduk>7001 AND kepadatanpenduduk<=12500,3,
+if(kepadatanpenduduk<12501 AND kepadatanpenduduk<=20000,4,
+if(kepadatanpenduduk>20001,5,0))))) ))/10 as prediksi,
+
+
+( ( (if(lebarjalan<=5,1,if(lebarjalan>5 AND lebarjalan<=7,2,if(lebarjalan>7,3,0))) )+
+
+( if(kepadatanpenduduk<=5000,1,if(kepadatanpenduduk>5001 AND kepadatanpenduduk<=7000,2,if(kepadatanpenduduk>7001 AND kepadatanpenduduk<=12500,3,
+
+if(kepadatanpenduduk<12501 AND kepadatanpenduduk<=20000,4,if(kepadatanpenduduk>20001,5,0))))) ))/10 )
++
+(6371 * acos(cos(radians(".$position[0]."))* cos(radians(latitude))*cos(radians(longitude)- radians(".$position[1]."))+sin(radians(".$position[0]."))*
+sin(radians(latitude))))as nilaifungsi
+
+FROM tbl_lokasi
+
+LEFT OUTER JOIN tbl_marker on tbl_marker.fungsi = tbl_lokasi.jenis
+
+ORDER by nilaifungsi
+
+limit 3
+
+SELECT daftarshelter.*,
+(6371 * acos(cos(radians(".$position[0].")) * cos(radians(latitude)) * cos(radians(longitude) - radians(".$position[1].")) +
+sin(radians(".$position[0]."))* sin(radians(latitude))))AS jarak,
+markershelter.marker as penanda
+FROM daftarshelter
+LEFT OUTER JOIN markershelter on markershelter.fungsimarker = daftarshelter.fungsi
+ORDER by jarak
+
+limit 3
+
+sampel : -0.910990, 100.347549
+SELECT daftarshelter.*,
+(6371 * acos(cos(radians("-0.910990")) * cos(radians(latitude)) * cos(radians(longitude) - radians("100.347549")) +
+sin(radians("-0.910990"))* sin(radians(latitude))))AS jarak,
+markershelter.marker as penanda
+FROM daftarshelter
+LEFT OUTER JOIN markershelter on markershelter.fungsimarker = daftarshelter.fungsi
+ORDER by jarak
+limit 3
